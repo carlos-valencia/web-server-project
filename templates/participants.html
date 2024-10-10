@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <head>
+        <Title>About F1 Participants</Title>
+    </head>
+    <body>
+
+    <!-- This is top navigation bar -->
+    <div class="topnav">
+        <div class="leftaligned">
+        <a href="/">Home</a>
+        <a href="/about">About F1</a>
+        <a href="/championships">The Championships</a>
+        <a class ="active" href="/participants">Participants</a>
+        </div>
+
+        <div class="rightaligned">
+
+        <!-- This block is for displaying profile instead of login/signup-->
+        {% if session['logged_in'] %}
+        <a href="/profile">Profile</a>
+
+        {% else %}
+        <a href="/signup">Signup</a>
+        <a href="/login">Login</a>
+
+        {% endif %}
+        <p>Today is {{datetime}}</p>
+        </div>
+    </div>
+
+    <!-- here begins content -->
+        <div class="content">
+            <div>
+                <h1>About F1 Participants</h1>
+                <ul>
+                <li>
+                    <h2>The Drivers</h2>
+                    <p>The drivers in F1 have to be the best in the world. Not only because they are piloting
+                    race cars capable of reaching speeds upwards of 220mph, but because they have to fight
+                    for their spot. Because each one of the 10 teams can only have 2 drivers, there are always
+                    more capable drivers than available seats, and it is their performances and skills that
+                    dictate who gets a drive.<br>
+                    On top of that, F1 drivers must acquire an FIA SuperLicense by racing (and succeeding) in other
+                    series in recent years.</p>
+                </li>
+
+                <li>
+                    <h2>The Teams (Constructors)</h2>
+                    <p>Each of the 10 F1 teams has to be willing to spend the big bucks to go for glory.<br>
+                    As in, to <strong>have a go</strong>. Only one team can end the season as the best team on
+                    the grid, and someone must also be last, so there's bound to be losses for a lot of teams.<br>
+                    Reality is a bit different though. Since 2019, the Haas team has finished no higher than 8th,
+                    Williams have finished last 3 times, Alfa Romeo finished 8th, 9th, 9th, and 6th (and are currently 9th)
+                    and AlphaTauri (Toro Rosso in 2019) have fallen from 6th in 2019 and 2021, to 9th in 2022 and currently last.<br>
+                    It's easy for F1 teams to get stuck in these negative loops unless they have the money to spend on the car,
+                    which these teams do not.<br></p>
+                </li>
+            </ul>
+            </div>
+
+            <hr>
+
+            <div>
+        <h2>What about engines?</h2>
+        <p>The foundation of a race car (or any car for that matter) is the engine. Without one, it doesn't
+        matter how aerodynamic your chasis, skilled your driver, or speedy your pit crew, you simply won't
+        leave the garage. But not every team can afford to build an engine (or knows how to... really).<br>
+        Some teams will build their own engines, and some will purchase their engine from other teams</p>
+        <ul>
+            <li>
+                <h3>Ferrari</h3>
+                <p>As the longest running team in F1, and one of the most prestigious sport car manufacturers
+                in the world, Ferrari have the knowledge and capital to build their own race engine.
+                It brought them success in the beginning of the century thanks to Michael Schumacher (2000-04) and Kimi Raikkonnen (2007)
+                early in the decade thanks to Sebastian Vettel (2010-13), back when Red Bull got their engines from Ferrari.<br>
+                In recent years, however, they haven't really been able to replicate their results, having had
+                the worst engine on the grid in 2020. They've recovered since, and are still looking to mount
+                a proper challenge for the title.<br>
+                Ferrari supplies engines to Haas and Alfa Romeo </p>
+            </li>
+
+            <li>
+                <h3>Mercedes</h3>
+                <p>Germans can build cars and engines. And Mercedes-Benz is no different. Although they are a
+                relatively newer team, having been bought after the 2009 season, they've found success thanks to
+                Nico Rosberg (2016) and Lewis Hamilton (20014-15, 20017-20). While their engine may not be
+                the strongest on the grid anymore, it is certainly is quite strong still, and very reliable as well.
+                Mercedes supplies engines to McLaren, Aston Martin, and Williams</p>
+            </li>
+
+            <li>
+                <h3>Honda/Red Bull PowerTrains</h3>
+                <p>Bet you didn't know Red Bull made engines... sort of.<br>
+                Back in 2018, they were using Renault engines, but the poor results that season caused them to look elsewhere.
+                Being the owners of the AlphaTauri (then Toro Rosso) team, Red Bull had positive experiences with Honda,
+                and they decided to go all in, almost becoming a Honda-works team.<br>
+                After two seasons of unreliability, Red Bull's gamble paid dividends thanks to Max Verstappen (2021-22) winning
+                back-to-back championships and Red Bull (2022) winning the constructors to end Mercedes' era of domination.
+                Not only that, but they had become the smallest (and therefore lightest), most powerful, most reliable engine<br>
+                As Honda decided to pull out of F1 at the end of 2021, Red Bull established their new department: Red Bull PowerTrains,
+                essentially taking over from Honda with the manufacturing, maintenance, and modifications of their engines.<br>
+                But make no mistake, that's a Honda engine under that RBPT badge.<br>
+                Red Bull supplies engines to their sister team AlphaTauri</p>
+            </li>
+
+            <li>
+                <h3>Renault</h3>
+                <p>Renault have not  raced in F1 since the end of 2020, and yet their engines are still used by... oh<br>
+                <strong>THE FRENCH</strong><br>
+                Renault F1 Team became Alpine F1 Team at the start of the 2021 season, but both being French companies
+                (and owned by the French people) it meant but a cosmetic change: new liveries, new team uniforms, new
+                driver overalls, new merchandise, and a new name. The engine, however, is still made by Renault for Alpine,
+                but they are a works team for all intents and purposes.</p>
+            </li>
+        </ul>
+        </div>
+        </div>
+    </body>
+</html>

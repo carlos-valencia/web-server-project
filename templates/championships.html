@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <head>
+        <Title>About F1 Championships</Title>
+    </head>
+    <body>
+
+    <!-- This is top navigation bar -->
+    <div class="topnav">
+        <div class="leftaligned">
+        <a href="/">Home</a>
+        <a href="/about">About F1</a>
+        <a class="active" href="/championships">The Championships</a>
+        <a href="/participants">Participants</a>
+        </div>
+
+        <div class="rightaligned">
+
+        <!-- This block is for displaying profile instead of login/signup-->
+        {% if session['logged_in'] %}
+        <a href="/profile">Profile</a>
+
+        {% else %}
+        <a href="/signup">Signup</a>
+        <a href="/login">Login</a>
+
+        {% endif %}
+        <p>Today is {{datetime}}</p>
+        </div>
+    </div>
+
+    <!--This is beginning of content-->
+    <div class="content">
+        <div>
+        <h1>About F1 Championships</h1>
+        <p>F1 runs two championships in parallel: the Drivers' Championship, and the Constructors' Championship<br>
+        Drivers will score points based on their race finish, and those points count towards their individual tally and
+        are the basis for the Drivers' Standings. At the same time, the team for whom they drive when scoring those points
+        gets the same number of points. These two separate points tallies, while connected, are independent: a driver
+        switching teams mid-season keeps their points, but so does their old team, and their new team does not gain any
+        points.</p>
+        <ul>
+            <li>
+                <h2>World Driver's Championship</h2>
+                <p>This championship is all about the drivers. This is the one that everyone always talks about. Sometimes
+                teams will sacrifice their chance at a Constructors' title if it means their driver will win the Drivers' title,
+                like the 2021 season, when Mercedes won the Constructors' title on the last race over Red Bull, but Verstappen won
+                the title from Hamilton on the last lap. Mercedes was not celebrating a Constructors' win, while Red Bull were
+                celebrating Verstappen's.</p>
+                <h3>Current drivers standings</h3>
+                    <ol>
+                        <li>Max Verstappen - Red Bull - Netherlands - 374 pts</li>
+                        <li>Sergio Perez - Red Bull - Mexico - 223 pts</li>
+                        <li>Lewis Hamilton - Mercedes - UK - 180 pts</li>
+                        <li>Fernando Alonso - Aston Martin - Spain - 170 pts</li>
+                        <li>Carlos Sainz - Ferrari - Spain - 142 pts</li>
+                        <li>Charles Leclerc - Ferrari - Monaco - 123 pts</li>
+                        <li>George Russell - Mercedes - UK - 109 pts</li>
+                        <li>Lando Norris - McLaren - UK - 98  pts</li>
+                        <li>Lance Stroll - Aston Martin - Canada - 47 pts</li>
+                        <li>Pierre Gasly - Alpine - France - 45 pts</li>
+                        <li>Oscar Piastri - McLaren - Australia - 42 pts</li>
+                        <li>Esteban Ocon - Alpine - France - 36 pts</li>
+                        <li>Alexander Albon - Williams - Thailand - 21 pts</li>
+                        <li>Nico Hulkenberg - Haas - Germany - 9 pts </li>
+                        <li>Valtteri Bottas - Alfa Romeo - Finland - 6 pts</li>
+                        <li>Zhou Guanyu - Alfa Romeo - China - 4 pts</li>
+                        <li>Yuki Tsunoda - AlphaTauri - Japan - 3 pts</li>
+                        <li>Kevin Magnussen - Haas - Denmark - 3 pts</li>
+                        <li>Liam Lawson - AlphaTauri(reserve) - New Zealand - 2 pts</li>
+                        <li>Logan Sargeant - Williams - USA - 0 pts</li>
+                        <li>Nyck De Vries - AlphaTauri(withdrawn) - Netherlands - 0 pts</li>
+                        <li>Daniel Ricciardo - AlphaTauri(injured) - Australia - 0 pts</li>
+                    </ol>
+            </li>
+
+            <li>
+                <h2>World Constructor's Championship</h2>
+                <p>For better or for worse, this one is mainly about teams getting as much prize money as possible. There don't
+                tend to be too many celebrations about a team winning the Constructors', most of the time the winning team also
+                has the winning driver. But that doesn't mean this championship doesn't matter. In 2020, the 3-way battle for 3rd
+                went down to the last race between Renault (now Alpine), Racing Point (now Aston Martin) and McLaren. And in 2021,
+                McLaren and Ferrari were locked in a season-long battle for 3rd. Currently, Ferrari and Mercedes are in a
+                battle for 2nd, and McLaren are trying to catch up to Aston Martin for 4th.</p>
+                <h3>Current Constructor Standings</h3>
+                    <ol>
+                        <li>Red Bull Racing - Austria - 597 pts</li>
+                        <li>Mercedes AMG - Germany - 289 pts</li>
+                        <li>Ferrari - Italy - 265 pts</li>
+                        <li>Aston Martin - UK - 217 pts</li>
+                        <li>McLaren - UK - 139 pts</li>
+                        <li>Alpine - France - 81 pts</li>
+                        <li>Williams - UK - 21 pts</li>
+                        <li>Haas - USA - 12 pts</li>
+                        <li>Alfa Romeo - Switzerland - 10 pts</li>
+                        <li>AlphaTauri - Italy - 5 pts</li>
+                    </ol>
+            </li>
+
+        </ul>
+        </div>
+
+        <hr>
+
+        <div>
+        <h2>Scoring system</h2>
+        <p>The most straight forward thing about F1 is it's scoring system, points are awarded to top finishers the following way:</p>
+        <table>
+            <tr>
+                <th>Finishing position</th>
+                <th>Points in Grand Prix</th>
+                <th>Points in Sprint</th>
+            </tr>
+
+            <!--loops through and builds the table, no need to make it manually-->
+            {% for pos in range(0,10) %}
+            <tr>
+                <td>{{pos + 1}}</td>
+                <td>{{gp_points[pos]}}</td>
+                <td>{{sprint_points[pos]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <p>Additionally, the driver that gets the fastest lap of the race if you get the fastest lap of the race gets and extra point if they are
+        in the top 10.</p>
+
+            <h3>Shortened races</h3>
+            <p>Sometimes a race is shortened because the conditions are not suitable for racing, or there have been
+            too many incidents and stoppages that the race clock has reached 00:00. If that's the case, the following
+            points are awarded based on race completion:</p>
+
+            <table>
+                <tr>
+                    <th>Finishing position</th>
+                    <th>Points for 25% distance</th>
+                    <th>Points for 50% distance</th>
+                    <th>Points for 75% distance</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>6</td>
+                    <td>13</td>
+                    <td>19</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>10</td>
+                    <td>14</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>8</td>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>2</td>
+                    <td>6</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>1</td>
+                    <td>5</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td></td>
+                    <td>4</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td></td>
+                    <td>3</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td></td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td></td>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td></td>
+                    <td></td>
+                    <td>1</td>
+                </tr>
+            </table>
+
+            <hr>
+        <h2>Penalties</h2>
+        <ol>
+            <li>
+                <h3>Fines</h3>
+                Teams and drivers may be fined for racking up penalties, as well as certain breaches of rules, such as interfering
+                with cars in Parc Fermé - like Verstappen did in Brazil 2021 -> See <a href="/redirect/verstappen_brazil_fined" target="_blank">here</a>
+            </li>
+
+            <li>
+                <h3>Time Penalties</h3>
+                Along with a fine, drivers will often receive time penalties if deemed at fault for incidents during a race.<br>
+                Sometimes those are simple time penalties. Sometimes they are required to drive-through the pit lane (without pitting)
+                as a penalty. If they decide to serve the penalty, they may do so during pit stops - they have to wait the length
+                of their penalty before servicing the car.<br>
+                These penalties can also be applied for non-contact incidents, such as speeding in the pit lane, crossing the
+                pit lane line (that separates pit entry/exit from the track), unsafe release from pits, and a number of improperly
+                carried out procedures regarding race starts, restarts, and safety car periods.
+            </li>
+
+            <li>
+                <h3>Grid penalties</h3>
+                Sometimes drivers get penalties before a race. Sometimes they cause an accident that takes them out of a race. Sometimes
+                they use more components (engine, turbo, battery, gearbox) than they are allowed to, or they change it after qualifying.<br>
+                When any of these happens, drivers take grid penalties: they start a number of places below where they qualified. Although this
+                seems like something to avoid, most drivers take grid penalties due to component changes, and this can lead to some interesting
+                races and clever strategy. For instance, if you have the fastest engine on the grid, and you know you'll need it anyway, why not
+                take the new component and the penalty at a power-focused track. Fresh engine means more power, and you already have the
+                fastest one, so you can fight your way through the field and minimize the damage.
+            </li>
+
+            <li>
+                <h3>Points deduction</h3>
+                Very rarely do drivers or teams break the rules in such a way to warrant a deduction in points. The last instance of this
+                came ahead the 2020 British Grand Prix, where Racing Point were deducted 15 points for what the FIA considered a breach
+                of the sporting regulations regarding the design of their brake ducts - allegedly being illegally copied from Mercedes.<br>
+                Note that these points deductions can be separate for team and drivers: in Racing Point's case, the team lost points,
+                but the drivers' kept it, presumably because they had no fault in the design of the car.
+            </li>
+
+            <li>
+                <h3>Disqualification</h3>
+                The rarest of penalties, yet the most severe. The last instance of a team being disqualified was back in 2008, when McLaren
+                was caught in a spying scandal that saw them be disqualified from the Constructors' Championship.<br>
+                Drivers can also be disqualified from events, with the last instance being Lewis Hamilton being disqualified from qualifying for
+                the 2021 São Paulo Grand Prix due to a breach of regulations in the rear wing. This didn't mean he couldn't take part in the Sprint Race,
+                but he had to start from the back, as if he hadn't qualified at all.
+            </li>
+        </ol>
+            On top of all these penalties, drivers get penalty points on their SuperLicense. If they accumulate 12 points, they are banned
+            for the next racing event.
+        </div>
+    </div>
+    </body>
+</html>

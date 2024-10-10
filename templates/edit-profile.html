@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+<!-- This is top navigation bar -->
+    <div class="topnav">
+        <div class="leftaligned">
+        <a href="/">Home</a>
+        <a href="/about">About F1</a>
+        <a href="/championships">The Championships</a>
+        <a href="/participants">Participants</a>
+        </div>
+
+        <div class="rightaligned">
+        <a class="active" href="/profile">Profile</a>
+        <p>Today is {{datetime}}</p>
+        </div>
+
+    </div>
+
+    {% for msg in get_flashed_messages() %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{msg}}
+    </div>
+    {% endfor %}
+
+    <div class="content" align="center">
+        <h2>Edit profile</h2>
+        <br>
+        <br>
+        <form action="/profile/edit" method="POST">
+            <label for="name">Name: </label>
+            <input type="text" id="name" name="name" placeholder="{{ name }}">
+            <br>
+            <br>
+            <button type="submit">Done</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+    <head><Title>About F1</Title></head>
+    <body>
+
+    <!-- This is top navigation bar -->
+    <div class="topnav">
+        <div class="leftaligned">
+        <a href="/">Home</a>
+        <a class="active" href="/about">About F1</a>
+        <a href="/championships">The Championships</a>
+        <a href="/participants">Participants</a>
+        </div>
+
+        <div class="rightaligned">
+
+        <!-- This block is for displaying profile instead of login/signup-->
+        {% if session['logged_in'] %}
+        <a href="/profile">Profile</a>
+
+        {% else %}
+        <a href="/signup">Signup</a>
+        <a href="/login">Login</a>
+
+        {% endif %}
+        <p>Today is {{datetime}}</p>
+        </div>
+    </div>
+
+    <!-- Here begins content -->
+    <div class="content">
+        <h1>About F1</h1>
+        <ul>
+            <li>
+                <h2>Event Structure</h2>
+                F1 events are carried out over 4 days, typically starting on Thursdays.<br>
+                Some weekends are regular, and some are Sprint weekends.<br>
+                Regular weekends are comprised of 3 Free Practice sessions, Qualifying, and the Grand Prix.<br>
+                Sprint weekends are comprised of 1 Free Practice session, Qualifying for the Grand Prix, Sprint Shootout
+                (Qualifying for Sprint), Sprint race, and the Grand Prix.<br>
+                <ul>
+                    <li>
+                        Thursdays<br>
+                        Press duties for team principals and drivers
+                    </li>
+
+                    <li>
+                        Fridays<br>
+                        Regular: FP1 and FP2<br>
+                        Sprint: FP1 and Qualifying for Grand Prix
+                    </li>
+
+                    <li>
+                        Saturdays<br>
+                        Regular: FP3 and Qualifying<br>
+                        Sprint: Sprint Shootout and Sprint
+                    </li>
+
+                    <li>
+                        Sundays<br>
+                        Grand Prix
+                    </li>
+                </ul>
+                <p>
+                    After each session, drivers and team principals may speak to media and meet with the team to discuss learnings and
+                    apply them to car setup or race strategy.
+                </p>
+            </li>
+
+            <li>
+                <h2>Racing Venues</h2>
+                F1 hosts 22 Grand Prix this 2023 season in 20 countries across 5 continents.<br>
+                While the majority of the tracks are purpose built tracks, and are certified FIA Grade 1, F1 has slowly
+                increased the number of street circuits on the calendar, going from 5 in 2019 to 8 in 2023, and there are talks
+                of adding two more in Madrid and London.<br>
+                The regulations dictate that F1 circuits be at least 3.5km long, and at most 7km long. All but two circuits fail to
+                meet this criteria: the famous Circuit de Monaco, and Circuit de Spa-Francochamps in Belgium. Monaco's
+                historic street circuit is only 3.3km in length, but due to its history in F1 is allowed to stay in the calendar. The
+                minimum race distance is also not met, with only 79 laps completed for a total of 263km.<br>
+                Belgium's Circuit de Spa-Francochamps exceeds the maximum length by 4 meters, being 7.004km in length. Since it also has a
+                historic standing in F1, it's also allowed to stay.<br>
+                Other curiosities include Mexico City hosting a race at upwards of 7,000 ft. This poses a challenge for both drivers and cars,
+                with lack of oxygen affecting both their performance. It also means that high downforce setups are required to achieve
+                competitive cornering speeds, and it has minimum impact to straight line speeds.
+                <h3>2023 Season:</h3>
+                <ul>
+                    <!--build table via loop, not manually-->
+                    {% for round in range(0,22) %}
+                    <li>
+                        Round {{round+1}}: {{races[round]}}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                Some circuits that were removed for this year's calendar include Circuit Paul Ricard in France, Shanghai International Circuit (last seen
+                2019), Sochi Autodrom (last seen 2021), or Autodromo Enzo e Dino Ferrari in Italy. This last one was scheduled for this season, but
+                rainfall caused the track and surrounding areas to flood. Although the venue was usable for racing, emergency services are
+                always required to be on stand-by, and F1 thought it would be better to have them available to those who needed the help, so they
+                cancelled the race.
+            </li>
+
+            <li>
+                <h2>Car Parts</h2>
+                Without diving into complicated technicalities, F1 teams are limited in how many parts they can use per season.<br>
+                A complete power unit is made up of an Internal Combustion Engine (ICE), a Turbo Charger, a Motor-Generator Unit Kinetic (MGU-K),
+                a Motor-Generator Unit Heat (MGU-H), a battery (Energy Store), a gearbox, control electronics, and an exhaust system.<br>
+                They are allowed 4 ICEs, 4 MGU-Ks, 4 MGU-Hs, 4 TurboChargers, 2 energy stores, 2 control electronics, 8 exhaust systems,
+                and 5 gearboxes.<br>
+                Within this allocation, teams are allowed to swap components on any car as desired without penalties as long as they swap
+                them whilst not in Parc Fermé, which begins when leaving the garage for FP3.
+                If a driver decides to change components while on Parc Fermé, they must start the Grand Prix from the pit lane. And if they
+                use more components than they are allowed, they incur grid penalties for the closes Grand Prix event following the change.
+            </li>
+
+            <li>
+                <h2>Historical Statistics</h2>
+                <ul>
+                    <li>
+                        <h3>Most Driver's Championships</h3>
+                        <ol>
+                            <li>Michael Schumacher: 7 (Benetton: 2, Ferrari: 5)</li>
+                            <li>Lewis Hamilton: 7 (McLaren: 1, Mercedes: 6)</li>
+                            <li>Juan Manuel Fangio: 5 (Alfa Romeo: 1, Mercedes: 2, Ferrari: 1, Maserati: 1)</li>
+                            <li>Alain Prost: 4 (McLaren: 3, Williams: 1)</li>
+                            <li>Sebastian Vettel: 4 (Red Bull)</li>
+                        </ol>
+                    </li>
+
+                    <li>
+                        <h3>Most Constructor's Championships</h3>
+                        <ol>
+                            <li>Ferrari: 16 titles</li>
+                            <li>Williams: 9 titles</li>
+                            <li>McLaren: 8 titles</li>
+                            <li>Mercedes: 8 titles</li>
+                            <li>Lotus: 7 titles</li>
+                        </ol>
+                    </li>
+
+                    <li>
+                        <h3>Drivers With Most Wins</h3>
+                        <ol>
+                            <li>Lewis Hamilton - 103</li>
+                            <li>Michael Schumacher - 91</li>
+                            <li>Sebastian Vettel - 53</li>
+                            <li>Alain Prost - 51</li>
+                            <li>Max Verstappen - 47</li>
+                        </ol>
+                    </li>
+
+                    <li>
+                        <h3>Drivers With Most Podiums</h3>
+                        <ol>
+                            <li>Lewis Hamilton - 196</li>
+                            <li>Michael Schumacher - 155</li>
+                            <li>Sebastian Vettel - 122</li>
+                            <li>Alain Prost - 106</li>
+                            <li>Fernando Alonso - 105</li>
+                        </ol>
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+    </div>
+    </body>
+</html>

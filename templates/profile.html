@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Information</title>
+</head>
+<body>
+    <div class="topnav">
+        <div class="leftaligned">
+        <a href="/">Home</a>
+        <a href="/about">About F1</a>
+        <a href="/championships">The Championships</a>
+        <a href="/participants">Participants</a>
+        </div>
+
+        <div class="rightaligned">
+        <a class="active" href="/profile">Profile</a>
+        <p>Today is {{datetime}}</p>
+        </div>
+    </div>
+
+    <!-- This block is for alert handling-->
+    {% if get_flashed_messages()|length > 0 %}
+    <hr>
+    {% endif %}
+
+    {% for msg in get_flashed_messages() %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{msg}}
+    </div>
+    {% endfor %}
+
+    <div class="content" align="center">
+        <h2>Welcome {{name}}</h2>
+        <div class="image-cropper">
+            <img src="{{ avatar }}" alt="user-avatar">
+        </div>
+        <br>
+        <br>
+        Username: {{user}}
+        <br>
+        <br>
+        <button onclick="window.location.href='/profile/edit'" type="submit">Edit</button>
+        <button onclick="window.location.href='/profile/reset-password'" type="submit">Change Password</button>
+        <button onclick="window.location.href='/dropsession'" type="submit">Log out</button>
+
+    </div>
+
+
+</body>
+</html>

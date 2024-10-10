@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+<!-- This is top navigation bar -->
+    <div class="topnav">
+        <div class="leftaligned">
+        <a href="/">Home</a>
+        <a href="/about">About F1</a>
+        <a href="/championships">The Championships</a>
+        <a href="/participants">Participants</a>
+        </div>
+
+        <div class="rightaligned">
+        <a class="active" href="/signup">Signup</a>
+        <a href="/login">Login</a>
+        <p>Today is {{datetime}}</p>
+        </div>
+    </div>
+
+    <!-- This block is for alert handling-->
+    {% if get_flashed_messages()|length > 0 %}
+    <hr>
+    {% endif %}
+
+    {% for msg in get_flashed_messages() %}
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{msg}}
+    </div>
+    {% endfor %}
+
+<div class="content" align="center">
+    <h2>Sign Up</h2>
+        <div class="auth">
+            <form action="/signup" method="POST">
+                <label for="username">Username: </label>
+                <input type="text" id="username" name="username"  placeholder="Username" required>
+                <br>
+                <br>
+                <label for="password">Password: </label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <br>
+                <br>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <br>
+                <br>
+                <button type="submit">Sign up</button>
+            </form>
+        </div>
+        <br>
+        <div>
+            <list>Password Requirements:
+                <li>Minimum length: 12 characters</li>
+                <li>Use of both upper and lowercase letters</li>
+                <li>Use of at least one number</li>
+                <li>Use of at least one special characters (!@#$%*_+)</li>
+            </list>
+        </div>
+    </div>
+
+</body>
+</html>
