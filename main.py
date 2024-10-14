@@ -1,12 +1,15 @@
-from datetime import datetime
-import os
 import logging
+import os
+from datetime import datetime
 from flask import Flask
 from flask import flash
-from flask import render_template
+from flask import g
 from flask import redirect
-from flask import request, session, g, url_for
+from flask import render_template
+from flask import request
+from flask import session
 from passlib.hash import sha256_crypt
+from flask import url_for
 
 logging.basicConfig(
     level=logging.ERROR,
@@ -75,10 +78,10 @@ def _redirect(name: str):
             flash("Redirect now allowed")
             return redirect(url_for("index"))
 
+
 def get_simple_date() -> str:
     return datetime.now().strftime("%b. %d of %Y")
 
 
 def get_datetime() -> str:
     return datetime.now().strftime("%b. %d,  %Y at %I:%M %p")
-
