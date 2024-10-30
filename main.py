@@ -148,7 +148,67 @@ def dropsession():
     return redirect(url_for("login"))
 
 
-# login next
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if g.user:
+        flash("Already logged in")
+        return redirect(url_for("profile"))
+
+    if request.method == "POST":
+        session.pop("user", None)
+
+        with open("references/passfile.txt", "r", encoding="utf8") as file:
+            for line in file:
+                values = line.split(",")
+                if request.form["username"] == values[0]:
+                    if sha256_crypt.verify(request.form["password"], values[1]):
+                        session["user"] = values[0]
+                        session["name"] = values[2]
+                        session["logged_in"] = True
+                        return redirect(url_for("profile"))
+                    break
+            flash("Invalid username or password")
+            logging.error("%s - Failed login attempt", request.remote_addr)
+
+    return render_template("login.html", datetime=get_datetime())
+
+
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if g.user:
+        flash("You are logged in. To create a new account, log out first")
+        return redirect(url_for("profile"))
+
+    if request.method == "POST":
+        session.pop("user", None)
+        valid_login = True
+        username = request.form["username"]
+        if user_registered(username):
+            print(f"user {username} is already registered")
+            flash("This username is already registered")
+            valid_login = False
+
+        password = request.form["password"]
+        if not complex_password(password):
+            print("password not complex")
+            flash("Password does not follow complexity rules")
+            valid_login = False
+
+        name = request.form["name"]
+
+        if valid_login:
+            password_hash = sha256_crypt.hash(password)
+            write_str = f"{username},{password_hash},{name}\n"
+
+            with open("references/passfile.txt", "a", encoding="utf8") as file:
+                file.writelines(write_str)
+
+            session["user"] = username
+            session["name"] = name
+            session["logged_in"] = True
+            return redirect(url_for("profile"))
+
+    return render_template("signup.html", datetime=get_datetime())
 
 
 def get_simple_date() -> str:
@@ -157,3 +217,40 @@ def get_simple_date() -> str:
 
 def get_datetime() -> str:
     return datetime.now().strftime("%b. %d,  %Y at %I:%M %p")
+
+
+def complex_password(pwd: str) -> bool:
+    if len(pwd) >= 12:
+        if valid_alpha(pwd) and valid_num(pwd) and valid_special(pwd):
+            return True
+    return False
+
+
+def valid_special(pwd: str) -> bool:
+    specials = "!@#$%*_+"
+    for char in specials:
+        if char in pwd:
+            return True
+    return False
+
+
+def valid_num(pwd: str) -> bool:
+    for char in pwd:
+        if char.isdigit():
+            return True
+    return False
+
+
+def valid_alpha(pwd: str) -> bool:
+    has_lower = False
+    has_upper = False
+    for char in pwd:
+        if char.islower():
+            has_lower = True
+        if char.isupper():
+            has_upper = True
+        if has_lower and has_upper:
+            return True
+    return False
+
+# user registered next
