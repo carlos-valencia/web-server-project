@@ -79,6 +79,78 @@ def _redirect(name: str):
             return redirect(url_for("index"))
 
 
+@app.route("/profile/reset-password", methods=["GET", "POST"])
+def reset_password():
+    if g.user:
+        if request.method == "POST":
+            new_password = request.form["new-password"]
+            if not equals_old_password(new_password):
+                if is_vulnerable(new_password):
+                    flash("Part of password is considered vulnerable. Consider changing")
+                    # in theory, the entire password could be considered compromised
+                    # in practice, chances of entire password being unsafe with rules is small
+                    # easy to add check for it, make this an elif
+                    # make initial - if new_password is word - and flash appropriate message
+                    # DONT FORGET TO BREAK AFTER FLASHING
+
+                if complex_password(new_password):
+                    change_pwd(new_password)
+                    flash("Your password was changed successfully")
+                    return redirect(url_for("profile"))
+
+                flash("New password does not follow complexity rules")
+            else:
+                flash("New password is the same as old password")
+
+        return render_template("reset-password.html", datetime=get_datetime())
+    flash("You must be logged in first")
+    return redirect(url_for("login"))
+
+
+@app.route("/profile/edit", methods=["GET", "POST"])
+def edit():
+    if g.user:
+        if request.method == "POST":
+            name = request.form["name"]
+            if name not in ("", session["name"]):
+                change_name(name)
+
+            return redirect(url_for("profile"))
+
+        return render_template("edit-profile.html", datetime=get_datetime(), name=session["name"])
+
+    flash("You cannot access this page because you are not logged in")
+    return redirect(url_for("login"))
+
+
+@app.route("/profile")
+def profile():
+    if g.user:
+        return render_template("profile.html", datetime=get_datetime(), user=session["user"],
+                               name=session["name"], avatar=AVATAR)
+
+    flash("You cannot access this page because you're not logged in")
+    return redirect(url_for("login"))
+
+
+@app.before_request
+def before_request():
+    g.user = None
+
+    if "user" in session:
+        g.user = session["user"]
+
+
+@app.route("/dropsession")
+def dropsession():
+    session.pop("user", None)
+    session["logged-in"] = False
+    return redirect(url_for("login"))
+
+
+# login next
+
+
 def get_simple_date() -> str:
     return datetime.now().strftime("%b. %d of %Y")
 
