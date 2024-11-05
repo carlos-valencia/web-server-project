@@ -34,6 +34,14 @@ RACES = ["Bahrain", "Saudi Arabia", "Australia" "Azerbaijan", "Miami", "Monaco",
          "Netherlands", "Italy", "Singapore", "Japan", "Qatar", "Austin", "Mexico",
          "Brazil", "Las Vegas", "Abu Dhabi"]
 
+
+def load_flagged_pwds() -> list[str]:
+    with open("references/CommonPassword.txt", "r", encoding="utf8") as file:
+        return file.read().splitlines()
+
+
+FLAGGED_PASSWORDS = load_flagged_pwds()
+
 if __name__ == "__main__":
     app.run()
 
@@ -253,4 +261,65 @@ def valid_alpha(pwd: str) -> bool:
             return True
     return False
 
-# user registered next
+
+def user_registered(username: str) -> bool:
+    with open("references/passfile.txt", "r", encoding="utf8") as file:
+        for line in file:
+            values = line.split(",")
+            if username == values[0]:
+                return True
+        return False
+
+
+def is_vulnerable(password: str) -> bool:
+    for word in FLAGGED_PASSWORDS:
+        if word in password:
+            return True
+    return False
+
+
+def equals_old_password(pwd: str) -> bool:
+    with open("references/passfile.txt", "r", encoding="utf8") as file:
+        for line in file:
+            values = line.split(",")
+            if values[0] == session["user"] and sha256_crypt.verify(pwd, values[1]):
+                return True
+        return False
+
+
+def change_name(name: str):
+    session["name"] = name
+    with open("references/passfile.txt", "r", encoding="utf8") as file:
+        lines = file.readlines()
+        line_index = 0
+        old_line = ""
+        for line in lines:
+            values = line.split(",")
+            if values[0] == session["user"]:
+                old_line = line
+                break
+            line_index += 1
+    values = old_line.split(",")
+    new_line = f"{values[0]},{values[1],{name}}\n"
+    lines[line_index] = new_line
+    with open("references/passfile.txt", "w", encoding="utf8") as file:
+        file.writelines(lines)
+
+
+def change_pwd(new_pwd: str):
+    new_pwd_hash = sha256_crypt.hash(new_pwd)
+    with open("references/passfile.txt", "r", encoding="utf8") as file:
+        lines=file.readlines()
+        line_index = 0
+        old_line = ""
+        for line in lines:
+            values = line.split(",")
+            if values[0] == session["user"]:
+                old_line = line
+                break
+            line_index += 1
+        values = old_line.split(",")
+        new_line = f"{values[0]}, {new_pwd_hash}, {values[2]}\n"
+        lines[line_index] = new_line
+    with open("references/passfile.txt", "w", encoding="utf8") as file:
+        file.writelines(lines)
